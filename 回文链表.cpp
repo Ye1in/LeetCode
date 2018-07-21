@@ -13,7 +13,8 @@ struct ListNode
     int val;
     ListNode *next;
     ListNode(int x) : val(x), next(NULL) {}
-}; /**
+};
+/**
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
@@ -24,23 +25,31 @@ struct ListNode
 class Solution
 {
   public:
-    ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
+    bool isPalindrome(ListNode *head)
     {
-        if (l1 == NULL)
-            return l2;
-        if (l2 == NULL)
-            return l1;
-
-        if (l1->val < l2->val)
+        if (head == NULL)
+            return true;
+        ListNode *fast = head, *slow = head, *temp, *reserve = NULL;
+        while (fast->next && fast->next->next)
         {
-            l1->next = mergeTwoLists(l1->next, l2);
-            return l1;
+            fast = fast->next->next;
+            slow = slow->next;
         }
-        else
+        while (slow)
         {
-            l2->next = mergeTwoLists(l2->next, l1);
-            return l2;
+            temp = slow->next;
+            slow->next = reserve;
+            reserve = slow;
+            slow = temp;
         }
+        while (reserve && head)
+        {
+            if (reserve->val != head->val)
+                return false;
+            reserve = reserve->next;
+            head = head->next;
+        }
+        return true;
     }
 };
 
@@ -95,20 +104,9 @@ ListNode *stringToListNode(string input)
     return ptr;
 }
 
-string listNodeToString(ListNode *node)
+string boolToString(bool input)
 {
-    if (node == nullptr)
-    {
-        return "[]";
-    }
-
-    string result;
-    while (node)
-    {
-        result += to_string(node->val) + ", ";
-        node = node->next;
-    }
-    return "[" + result.substr(0, result.length() - 2) + "]";
+    return input ? "True" : "False";
 }
 
 int main()
@@ -116,13 +114,11 @@ int main()
     string line;
     while (getline(cin, line))
     {
-        ListNode *l1 = stringToListNode(line);
-        getline(cin, line);
-        ListNode *l2 = stringToListNode(line);
+        ListNode *head = stringToListNode(line);
 
-        ListNode *ret = Solution().mergeTwoLists(l1, l2);
+        bool ret = Solution().isPalindrome(head);
 
-        string out = listNodeToString(ret);
+        string out = boolToString(ret);
         cout << out << endl;
     }
     return 0;
