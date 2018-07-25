@@ -33,20 +33,12 @@ class Solution
         vector<vector<int>> vv{};
         for (int i = 0; i < numRows; ++i)
         {
-            vector<int> v(i, 0);
+            vector<int> v(i + 1, 0);
             v.front() = 1;
             v.back() = 1;
+            for (int j = 1; j < i; ++j)
+                v[j] = vv[i - 1][j - 1] + vv[i - 1][j];
             vv.push_back(v);
-        }
-        for (int i = 0; i < numRows; ++i)
-        {
-            for (int j = 0; j < vv[i].size(); ++j)
-            {
-                if (vv[i][j] == 0)
-                {
-                    vv[i][j] = vv[i - 1, j - 1] + vv[i - 1, j];
-                }
-            }
         }
         return vv;
     }
