@@ -22,8 +22,37 @@ using namespace std;
 // ]
 class Solution
 {
-  public:
-    vector<vector<int>> threeSum(vector<int> &nums)
+public:
+  vector<vector<int>> threeSum(vector<int> &nums)
+  {
+    vector<vector<int>> vv{};
+    sort(nums.begin(), nums.end());
+    int n = nums.size();
+    for (int i = 0; i < n; ++i)
     {
+      if (i >= 1 && nums[i - 1] == nums[i])
+        continue;
+      for (int j = i + 1, k = n - 1; j < k;)
+      {
+        if (j > i + 1 && nums[j - 1] == nums[j])
+        {
+          ++j;
+          continue;
+        }
+        if (k < n - 1 && nums[k] == nums[k + 1])
+        {
+          --k;
+          continue;
+        }
+        int sum = nums[i] + nums[j] + nums[k];
+        if (sum > 0)
+          --k;
+        else if (sum < 0)
+          ++j;
+        else
+          vv.push_back(vector<int>{nums[i], nums[j++], nums[k--]});
+      }
     }
+    return vv;
+  }
 };
