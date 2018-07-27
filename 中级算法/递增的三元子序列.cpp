@@ -32,6 +32,16 @@ class Solution
   public:
     bool increasingTriplet(vector<int> &nums)
     {
+        int min = 0, mid = 0, max = 0;
+        for (int i = 0; i < nums.size() - 2; ++i)
+        {
+            if (nums[i] < nums[i + 1] && nums[i + 1] < nums[i + 2])
+            {
+            }
+            else
+                return false;
+        }
+        return true;
     }
 };
 

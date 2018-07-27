@@ -29,12 +29,11 @@ class Solution
     {
         if (s.empty() || s.size() == 1)
             return s;
-        string longeststring{};
+        string longeststring = s.substr(0, 1);
         int tf[1000][1000]{}, l = s.size();
         for (int i = 0; i < l - 1; ++i)
         {
             tf[i][i] = 1;
-            longeststring = s.substr(i, 1);
             if (s.at(i) == s.at(i + 1))
             {
                 tf[i][i + 1] = 1;
@@ -42,7 +41,7 @@ class Solution
             }
         }
         tf[l - 1][l - 1] = 1;
-        for (int n = 3; n < l; ++n)
+        for (int n = 3; n <= l; ++n)
         {
             for (int i = 0; i + n - 1 < l; ++i)
             {
