@@ -42,18 +42,18 @@ class Solution
             }
         }
         tf[l - 1][l - 1] = 1;
-        // for (int n = 3; n < l; ++n)
-        // {
-        //     for (int i = 0; i + n - 1 < l; ++i)
-        //     {
-        //         int j = i + n - 1;
-        //         if (s.at(i) == s.at(j) && tf[i + 1][j - 1])
-        //         {
-        //             tf[i][j] = 1;
-        //             longeststring = s.substr(i, j - i + 1);
-        //         }
-        //     }
-        // }
+        for (int n = 3; n < l; ++n)
+        {
+            for (int i = 0; i + n - 1 < l; ++i)
+            {
+                int j = i + n - 1;
+                if (s.at(i) == s.at(j) && tf[i + 1][j - 1])
+                {
+                    tf[i][j] = 1;
+                    longeststring = s.substr(i, j - i + 1);
+                }
+            }
+        }
         return longeststring;
     }
 };
