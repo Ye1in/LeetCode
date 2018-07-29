@@ -49,8 +49,24 @@ struct TreeNode
 class Solution
 {
   public:
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder, int pre, int inl, int inr)
+    {
+        if (inl == inr)
+            return new TreeNode(preorder[pre]);
+        if (inl > inr)
+            return NULL;
+        TreeNode *root = new TreeNode(preorder[pre]);
+        int i = inl;
+        while (preorder[pre] != inorder[i] && i <= inr)
+            i++;
+        root->left = buildTree(preorder, inorder, pre + 1, inl, i - 1);
+        root->right = buildTree(preorder, inorder, pre + i - inl + 1, i + 1, inr);
+        return root;
+    }
     TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
     {
+        int l = preorder.size() - 1;
+        return buildTree(preorder, inorder, 0, 0, l);
     }
 };
 
