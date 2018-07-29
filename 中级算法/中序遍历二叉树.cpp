@@ -10,7 +10,15 @@
 #include <queue>
 #include <utility>
 #include <set>
+#include <stack>
 using namespace std;
+struct TreeNode
+{
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
 // 给定一个二叉树，返回它的中序 遍历。
 
 // 示例:
@@ -33,13 +41,83 @@ using namespace std;
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+//递归
+// class Solution
+// {
+//   public:
+//     void inorderTraversal(TreeNode *root, vector<int> &v)
+//     {
+//         if (!root)
+//             return;
+//         if (root->left)
+//             inorderTraversal(root->left, v);
+//         v.push_back(root->val);
+//         if (root->right)
+//             inorderTraversal(root->right, v);
+//     }
+//     vector<int> inorderTraversal(TreeNode *root)
+//     {
+//         vector<int> temp{};
+//         inorderTraversal(root, temp);
+//         return temp;
+//     }
+// };
+迭代
 class Solution
 {
   public:
     vector<int> inorderTraversal(TreeNode *root)
     {
+        stack<TreeNode *> st{};
+        vector<int> temp{};
+        TreeNode *p = root;
+        TreeNode *t = NULL;
+        while (p || !st.empty())
+        {
+            if (p)
+            {
+                st.push(p);
+                p = p->left;
+            }
+            else
+            {
+                t = st.top();
+                st.pop();
+                temp.push_back(t->val);
+                p = t->right;
+            }
+        }
+        return temp;
     }
 };
+// Non-recursion and no stack
+// class Solution {
+// public:
+//     vector<int> inorderTraversal(TreeNode *root) {
+//         vector<int> res;
+//         if (!root) return res;
+//         TreeNode *cur, *pre;
+//         cur = root;
+//         while (cur) {
+//             if (!cur->left) {
+//                 res.push_back(cur->val);
+//                 cur = cur->right;
+//             } else {
+//                 pre = cur->left;
+//                 while (pre->right && pre->right != cur) pre = pre->right;
+//                 if (!pre->right) {
+//                     pre->right = cur;
+//                     cur = cur->left;
+//                 } else {
+//                     pre->right = NULL;
+//                     res.push_back(cur->val);
+//                     cur = cur->right;
+//                 }
+//             }
+//         }
+//         return res;
+//     }
+// };
 
 void trimLeftTrailingSpaces(string &input)
 {
